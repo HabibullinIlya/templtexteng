@@ -4,15 +4,20 @@ import javax.persistence.*
 
 @Entity
 @Table(name="texttemplate")
-data class TextTemplate(
+class TextTemplate(_id: Int, _template: String) {
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name="id_template")
-        var id:Int,
+        var id:Int? = _id
 
         @Column(name="mtemplate")
-        var content:String,
+        var template:String? = _template
 
-        @Column(name="params")
-        var params:String
-)
+        @ManyToMany(cascade = [CascadeType.ALL])
+        @JoinTable(
+                name = "template_params",
+                joinColumns = [(JoinColumn(name = "id_template"))],
+                inverseJoinColumns = [(JoinColumn(name = "id_param"))]
+        )
+        var params:Set<Parameter> = HashSet()
+}
