@@ -9,6 +9,7 @@ import xyz.ilyaxabibullin.templatesengine.entitys.TemplateRequest
 
 import xyz.ilyaxabibullin.templatesengine.entitys.TextTemplate
 import xyz.ilyaxabibullin.templatesengine.repository.TemplateRepository
+import xyz.ilyaxabibullin.templatesengine.services.TemplateService
 import xyz.ilyaxabibullin.templatesengine.utill.Logger
 
 
@@ -19,6 +20,9 @@ class TextEngineController {
     @Autowired
     private lateinit var repository: TemplateRepository
     val logger = Logger()
+
+    @Autowired
+    private lateinit var templateService: TemplateService
 
 
 
@@ -72,12 +76,20 @@ class TextEngineController {
 
     @GetMapping("/{id}")
     fun getTemplate(@PathVariable("id") id: Int,
-                    @RequestParam input:  Map<String, Any> ): Map<String, String> {
+                    @RequestParam params:  Map<String, Any> ): ResponseEntity<Map<String, Any>> {
+
+        var textTemplate = repository.findById(id).get()
+        val formedText: String
+
+        if(params.size!=textTemplate.params.size){
+            return ResponseEntity(mapOf("error" to "true","message" to "doesn't match number of parameters")
+                    ,HttpStatus.NOT_FOUND)
+        }else{
+            formedText = templateService.getFormedText(params, textTemplate)
+        }
 
 
-
-
-        return mapOf("formed_text" to "poka tak")
+        return ResponseEntity(mapOf("formed_text" to formedText),HttpStatus.OK)
 
 
     }
