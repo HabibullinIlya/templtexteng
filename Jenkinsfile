@@ -2,12 +2,12 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            steps {RockCorn20
+            steps {
 
                 sh "echo build"
                 sh "./gradlew build"
             }
         }
-        
+
     }
 }
