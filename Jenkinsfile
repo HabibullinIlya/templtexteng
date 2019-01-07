@@ -8,6 +8,10 @@ pipeline {
                 sh "./gradlew build"
             }
         }
-
+        stage('Move to tomcat'){
+            steps{
+                 sh "cp ./build/libs/wherebackend.war /opt/tomcat/webapps"
+            }
+        }
     }
 }
