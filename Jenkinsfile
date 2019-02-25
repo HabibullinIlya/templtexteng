@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh "chmod +x gradlew"
                 sh "echo build"
-                sh "./gradlew compile"
+                sh "./gradlew assemble"
             }
         }
         stage('Build Docker Image'){
