@@ -1,3 +1,5 @@
+def projectName = "templateengine"
+
 pipeline {
     agent any
     stages {
@@ -5,13 +7,26 @@ pipeline {
             steps {
                 sh "chmod +x gradlew"
                 sh "echo build"
-                sh "./gradlew build --debug"
+                sh "./gradlew compile --debug"
             }
         }
-        stage('Move to tomcat'){
+        stage('Build Docker Image'){
             steps{
-                 sh "cp ./build/libs/wherebackend.war /opt/tomcat/webapps"
+                script {
+                    app = docker.build("habibullinilya/${projectName}")
+                }
             }
         }
+        stage('Push Image to Registry'){
+            steps{
+                script{
+                    docker.withRegistry('', 'dockerhub') {
+                        app.push("1.0")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+        
     }
 }
