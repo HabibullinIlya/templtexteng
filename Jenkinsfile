@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh "chmod +x gradlew"
                 sh "echo build"
-                sh "./gradlew compile --debug"
+                sh "./gradlew compile"
             }
         }
         stage('Build Docker Image'){
@@ -26,7 +26,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         
     }
 }
