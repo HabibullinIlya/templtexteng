@@ -1,5 +1,4 @@
-def projectName = "templateengine"
-
+def projectName = "templateTextEngine"
 pipeline {
     agent any
     stages {
