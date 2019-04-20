@@ -1,4 +1,4 @@
-def projectName = "templateTextEngine"
+def projectName = "template_text_engine"
 pipeline {
     agent any
     stages {
@@ -26,6 +26,16 @@ pipeline {
                 }
             }
         }
+        stage('update databae'){
+            steps{
+                script{
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui \
+                        --driver=org.postgresql.Driver \
+                        --username=postgres --password="postgres" \
+                        --changeLogFile=initDB.sql update" ,returnStdout: true)
+                }
+            }
+        }
         stage('deploy to k8s') {
             steps {
                 script {
@@ -39,7 +49,7 @@ pipeline {
                         sh "kubectl describe services/${projectName}"
                     } else {
                         echo "else"
-                        sh "kubectl set image deployments/${projectName} ${projectName}=docker.io/habibullinilya/whereis"
+                        sh "kubectl set image deployments/${projectName} ${projectName}=docker.io/habibullinilya/${rojectName}"
                     }
                 }
 
