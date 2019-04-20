@@ -1,4 +1,5 @@
 def projectName = "template_text_engine"
+def deploymentName = "templatetextengine"
 pipeline {
     agent any
     stages {
@@ -39,17 +40,17 @@ pipeline {
         stage('deploy to k8s') {    
             steps {
                 script {
-                    def isExist = sh(script: "kubectl get deployments | grep ${projectName}| wc -l| tr -d '\n'", returnStdout: true)
+                    def isExist = sh(script: "kubectl get deployments | grep ${deploymentName}| wc -l| tr -d '\n'", returnStdout: true)
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
                         echo "get deployements ${projectName}"
-                        sh "kubectl run templatetextengine--image=docker.io/habibullinilya/${projectName} --port=8080"
+                        sh "kubectl run ${deploymentName} --image=docker.io/habibullinilya/${projectName} --port=8080"
                         sh "kubeсtl get pods"
-                        sh "kubectl expose deployments/${projectName}--type=NodePort --port 8080"
-                        sh "kubectl describe services/${projectName}"
+                        sh "kubectl expose deployments/${deploymentName} -type=NodePort --port 8080"
+                        sh "kubectl describe services/${deploymentName}"
                     } else {
                         echo "else"
-                        sh "kubectl set image deployments/${projectName} ${projectName}=docker.io/habibullinilya/${rojectName}"
+                        sh "kubectl set image deployments/${deploymentName} ${deploymentName}=docker.io/habibullinilya/${rojectName}"
                     }
                 }
 
