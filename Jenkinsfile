@@ -29,7 +29,7 @@ pipeline {
         stage('update databae'){
             steps{
                 script{
-                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui \
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui2 \
                         --driver=org.postgresql.Driver \
                         --username=postgres --password=\"postgres\" \
                         --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
