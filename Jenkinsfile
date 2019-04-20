@@ -32,11 +32,11 @@ pipeline {
                     def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui \
                         --driver=org.postgresql.Driver \
                         --username=postgres --password=\"postgres\" \
-                        --changeLogFile=./src/main/resources/initDB.sql update" ,returnStdout: true)
+                        --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
                 }
             }
         }
-        stage('deploy to k8s') {
+        stage('deploy to k8s') {    
             steps {
                 script {
                     def isExist = sh(script: "kubectl get deployments | grep ${projectName}| wc -l", returnStdout: true)
