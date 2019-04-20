@@ -32,7 +32,7 @@ pipeline {
                     def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui \
                         --driver=org.postgresql.Driver \
                         --username=postgres --password=\"postgres\" \
-                        --changeLogFile=initDB.sql update" ,returnStdout: true)
+                        --changeLogFile=./src/main/resources/initDB.sql update" ,returnStdout: true)
                 }
             }
         }
