@@ -42,7 +42,7 @@ pipeline {
                     def isExist = sh(script: "kubectl get deployments | grep ${projectName}| wc -l", returnStdout: true)
                     echo "$isExist"
                     if (isExist == 0) {
-                        echo "get deployements ${temp}"
+                        echo "get deployements ${projectName}"
                         sh "kubectl run whereis --image=docker.io/habibullinilya/${projectName} --port=8080"
                         sh "kubeсtl get pods"
                         sh "kubectl expose deployments/${projectName}--type=NodePort --port 8080"
