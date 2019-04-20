@@ -39,7 +39,7 @@ pipeline {
         stage('deploy to k8s') {    
             steps {
                 script {
-                    def isExist = sh(script: "kubectl get deployments | grep ${projectName}| wc -l| tr-d '\n'", returnStdout: true)
+                    def isExist = sh(script: "kubectl get deployments | grep ${projectName}| wc -l| tr -d '\n'", returnStdout: true)
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
                         echo "get deployements ${projectName}"
