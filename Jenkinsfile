@@ -50,7 +50,7 @@ pipeline {
                         sh "kubectl describe services/${deploymentName}"
                     } else {
                         echo "else"
-                        sh "kubectl set image deployments/${deploymentName} ${deploymentName}=docker.io/habibullinilya/${rojectName}"
+                        sh "kubectl set image deployments/${deploymentName} ${deploymentName}=docker.io/habibullinilya/${projectName}"
                     }
                 }
 
