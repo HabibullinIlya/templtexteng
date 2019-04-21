@@ -45,7 +45,6 @@ pipeline {
                     if (isExist == "0") {
                         echo "get deployements ${projectName}"
                         sh "kubectl run ${deploymentName} --image=docker.io/habibullinilya/${projectName} --port=8080"
-                        sh "kubeсtl get pods"
                         sh "kubectl expose deployments/${deploymentName} --type=NodePort --port 8080"
                         sh "kubectl describe services/${deploymentName}"
                     } else {
