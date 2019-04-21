@@ -23,7 +23,7 @@ CREATE TABLE TEMPLATE_PARAMS(
   id_param int REFERENCES parameter (id_param)
 );
 
-alter table template_params drop column id_template_params
+alter table template_params drop column id_template_params;
 
 --changeset User1:2
 
@@ -36,3 +36,4 @@ alter table template_params drop column id_template_params
 CREATE TABLE test2(
   id_test_query SERIAL PRIMARY KEY  
 );
+--rollback drop table test2;
