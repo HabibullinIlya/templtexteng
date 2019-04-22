@@ -39,7 +39,7 @@ pipeline {
                         sh "kubectl create -f ./k8sconfigs/postgres-service.yaml"
                     }
 
-                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://localhost:5432/testliqui2 \
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/postgres\
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
