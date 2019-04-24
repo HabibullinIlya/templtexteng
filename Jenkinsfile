@@ -1,5 +1,5 @@
 def projectName = "template_text_engine"
-def deploymentServiceName = "templatetextengine"
+def deploymentServiceName = "templates"
 def deploymentDatabaseName = "postgres"
 pipeline {
     agent any
@@ -39,7 +39,7 @@ pipeline {
                         sh "kubectl create -f ./k8sconfigs/postgres-service.yaml"
                     }
 
-                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/postgres\
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/postgresdb\
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
@@ -61,6 +61,7 @@ pipeline {
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
                         echo "get deployements ${projectName}"
+                        sh "kubectl create -f ./k8sconfigs/templates-configmap.yaml"
                         sh "kubectl run ${deploymentServiceName} --image=docker.io/habibullinilya/${projectName} --port=8080"
                         sh "kubectl expose deployments/${deploymentServiceName} --type=NodePort --port 8080"
                         sh "kubectl describe services/${deploymentServiceName}"
