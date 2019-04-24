@@ -44,14 +44,7 @@ pipeline {
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
                 }
-                post{
-                    failure{
-                        script{
-                            //rollback
-                        }
-                    }
-
-                }
+                
             }
         }
         stage('deploy to k8s') {    
