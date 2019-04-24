@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: templates
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: templates
+  template:
+    metadata:
+      labels:
+        app: templates
+    spec:
+      containers:
+        - name: templates
+          image: habibullinilya/template_text_engine
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: template-config

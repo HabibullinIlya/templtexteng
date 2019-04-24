@@ -5,5 +5,5 @@ metadata:
   labels: 
     app: templates
 data:
-  DATABASE_IP: postgres
+  DATABASE_URL: postgres
   DATABASE_PORT: "5432" 
