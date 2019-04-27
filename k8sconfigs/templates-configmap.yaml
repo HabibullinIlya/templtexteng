@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: template-config
+  labels: 
+    app: templates
+data:
+  DATABASE_URL: postgres
+  DATABASE_PORT: "5432" 
