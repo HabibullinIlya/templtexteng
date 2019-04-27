@@ -21,3 +21,10 @@ spec:
           envFrom:
             - configMapRef:
                 name: template-config
+          readinessProbe: 
+            httpGet: 
+              path: /template/info/1
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 3
+            timeoutSeconds: 5
