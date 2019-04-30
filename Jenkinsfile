@@ -59,7 +59,7 @@ pipeline {
                         echo "get deployements ${projectName}"
                         sh "kubectl create -f ./k8sconfigs/templates-configmap.yaml"
                         //sh "kubectl run ${deploymentServiceName} --image=docker.io/habibullinilya/${projectName} --port=8080"
-                        sh "kubectl create -f ./k8sconfigs/template-deployment.yaml"
+                        sh "kubectl create -f ./k8sconfigs/templates-deployment.yaml"
                         sh "kubectl expose deployments/${deploymentServiceName} --type=NodePort --port 8080"
                         sh "kubectl describe services/${deploymentServiceName}"
                     } else {
