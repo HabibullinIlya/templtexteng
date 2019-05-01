@@ -72,7 +72,8 @@ pipeline {
                     sleep (time: 60, unit: "SECONDS")
 
                     def pods = sh(script:"kubectl get po -o 'jsonpath={.items[*].metadata.name}'", returnStdout:true)
-                    if(areReadyPods(filterPods(pods, deploymentServiceName)){
+                    
+                    if(areReadyPods(filterPods(pods, deploymentServiceName))){
                         sh "echo ready"
                     }else{
                         sh "echo not ready"
