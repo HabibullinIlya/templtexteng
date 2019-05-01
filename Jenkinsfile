@@ -54,7 +54,7 @@ pipeline {
                 
             }
         }
-        stage('deploy to k8s') {    
+        stage('deploy to k8s') {  
             steps {
                 script {
                     def isExist = sh(script: "kubectl get deployments | grep ${deploymentServiceName}| wc -l| tr -d '\n'", returnStdout: true)
@@ -77,8 +77,12 @@ pipeline {
                     
                     if(areReadyPods(filterPods(pods, deploymentServiceName))){
                         sh "echo ready"
+                        throw new Exception()
                     }else{
                         sh "echo not ready"
+
+                        
+                        error('error when deploying app')
                     }
                 }
             }
