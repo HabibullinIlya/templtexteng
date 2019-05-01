@@ -71,7 +71,7 @@ pipeline {
                         sh "kubectl set image deployments/${deploymentServiceName} ${deploymentServiceName}=docker.io/habibullinilya/${projectName}"
                     }
 
-                    sleep (time: 60, unit: "SECONDS")
+                    sleep (time: 90, unit: "SECONDS")
 
                     def pods = sh(script:"kubectl get po -o 'jsonpath={.items[*].metadata.name}'", returnStdout:true)
                     
@@ -108,8 +108,10 @@ def areReadyPods(arr){
 def isReadyPod(podName){
     if(sh(script: "kubectl get po ${podName} -o \'jsonpath={.status.conditions[?(@.type==\"Ready\")].status}\'",
                          returnStdout: true)=="False"){
+        print("${podName}  not ready")
         return false
     }else{
+        print("${podName} ready")
         return true
     }
 }
