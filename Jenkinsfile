@@ -29,7 +29,7 @@ pipeline {
                     //    app.push("5.0")
                     //    app.push("latest")
                     //}
-                    sh "push image"
+                    sh "echo push image"
                 }
             }
 
