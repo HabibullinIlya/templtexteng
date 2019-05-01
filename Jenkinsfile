@@ -1,4 +1,5 @@
 
+
 def projectName = "template_text_engine"
 def deploymentServiceName = "templates"
 def deploymentDatabaseName = "postgres"
@@ -34,7 +35,8 @@ pipeline {
         stage('update database'){
             steps{
                 script{
-                    def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${deploymentDatabaseName}| wc -l| tr -d '\n'", returnStdout: true)
+                    def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${deploymentDatabaseName}| wc -l| tr -d '\n'",
+                             returnStdout: true)
                     if(ifIsDBPresent == "0"){
                         sh "kubectl create -f ./k8sconfigs/postgres-configmap.yaml"
                         sh "kubectl create -f ./k8sconfigs/postgres-storage.yaml"
@@ -66,10 +68,45 @@ pipeline {
                         echo "else"
                         sh "kubectl set image deployments/${deploymentServiceName} ${deploymentServiceName}=docker.io/habibullinilya/${projectName}"
                     }
-                }
 
+                    sleep (time: 60, unit: "SECONDS")
+
+                    def pods = sh(script:"kubectl get po -o 'jsonpath={.items[*].metadata.name}'", returnStdout:true)
+                    if(areReadyPods(filterPods(pods, deploymentServiceName)){
+                        sh "echo ready"
+                    }else{
+                        sh "echo not ready"
+                    }
+                }
             }
         }
     }
 }
 
+def filterPods(String filteredString, filter){
+    def arr = filteredString.split()
+    def filteredPodsList = []
+    for(s in arr){
+        if(s.contains(filter)){
+            filteredPodsList.add(s)
+        }
+    }
+    return filteredPodsList
+}
+def areReadyPods(arr){
+    for(a in arr){
+        if(!isReadyPod(a)){
+            return false
+        }
+    }
+    return true
+}
+
+def isReadyPod(podName){
+    if(sh(script: "kubectl get po ${podName} -o 'jsonpath={.status.conditions[?(@.type==\"Ready\")].status}'",
+                         returnStdout: true)=="false"){
+        return false
+    }else{
+        return true
+    }
+}
