@@ -10,13 +10,14 @@ pipeline {
         stage('Build') {
             steps {
                 //sh "chmod +x gradlew"
-                //sh "echo build"
+                sh "echo build"
                 //sh "./gradlew assemble"
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
+                    sh "echo docker build"
                     //app = docker.build("habibullinilya/${projectName}")
                 }
             }
@@ -24,12 +25,14 @@ pipeline {
         stage('Push Image to Registry') {
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub') {
-                        //app.push("5.0")
-                        //app.push("latest")
-                    }
+                    //docker.withRegistry('', 'dockerhub') {
+                    //    app.push("5.0")
+                    //    app.push("latest")
+                    //}
+                    sh "push image"
                 }
             }
+
         }
         stage('update database'){
             steps{
