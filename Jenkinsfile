@@ -106,8 +106,8 @@ def areReadyPods(arr){
 }
 
 def isReadyPod(podName){
-    if(sh(script: "kubectl get po ${podName} -o 'jsonpath={.status.conditions[?(@.type==\"Ready\")].status}'",
-                         returnStdout: true)=="false"){
+    if(sh(script: "kubectl get po ${podName} -o \'jsonpath={.status.conditions[?(@.type==\"Ready\")].status}\'",
+                         returnStdout: true)=="False"){
         return false
     }else{
         return true
