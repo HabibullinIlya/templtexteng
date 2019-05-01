@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub') {
-                        app.push("5.0")
+//                        app.push("5.0")
                         app.push("latest")
                     }
                 }
