@@ -9,9 +9,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                //sh "chmod +x gradlew"
+                sh "chmod +x gradlew"
                 sh "echo build"
-                //sh "./gradlew assemble"
+                sh "./gradlew assemble"
             }
         }
         stage('Build Docker Image') {
@@ -25,11 +25,12 @@ pipeline {
         stage('Push Image to Registry') {
             steps {
                 script {
-                    //docker.withRegistry('', 'dockerhub') {
-                    //    app.push("5.0")
-                    //    app.push("latest")
-                    //}
                     sh "echo push image"
+                    docker.withRegistry('', 'dockerhub') {
+                        app.push("6.0")
+                        app.push("latest")
+                    }
+                    
                 }
             }
 
