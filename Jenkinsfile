@@ -2,7 +2,7 @@
 
 def projectName = "template_text_engine"
 def deploymentServiceName = "templates"
-def deploymentDatabaseName = "postgres"
+def deploymentDatabaseName = "postgresdb"
 
 pipeline {
     agent any
@@ -46,8 +46,14 @@ pipeline {
                         sh "kubectl create -f ./k8sconfigs/postgres-deployment.yaml"
                         sh "kubectl create -f ./k8sconfigs/postgres-service.yaml"
                     }
+                    sleep(time:90, unit: "SECONDS")
 
-                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/postgresdb\
+                    if(!areReadyPods(filterPods(pods, deploymentDatabaseName))){
+                        error('error when create database')
+                        
+                    }
+
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/${deploymentDatabaseName}\
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
@@ -78,11 +84,17 @@ pipeline {
                     
                     if(areReadyPods(filterPods(pods, deploymentServiceName))){
                         sh "echo ready"
-                        throw new Exception()
+                        sh "seccessful deploy "
+                        
                     }else{
                         sh "echo not ready"
+                        sh "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase \
+                         --url=jdbc:postgresql://192.168.99.100:30080/${deploymentDatabaseName}\
+                         --driver=org.postgresql.Driver --username=postgres --password=\"postgres\"\
+                         --changeLogFile=./src/main/resources/initDb.sql rollbackCount 1"
 
-                        
+                        sh "kubectl rollout undo deployments/${deploymentServiceName}"
+
                         error('error when deploying app')
                     }
                 }

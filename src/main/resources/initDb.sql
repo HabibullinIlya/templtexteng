@@ -37,3 +37,9 @@ CREATE TABLE test2(
   id_test_query SERIAL PRIMARY KEY  
 );
 --rollback drop table test2;
+
+--changeset User1:4
+CREATE TABLE test3(
+  id_test_query SERIAL PRIMARY KEY  
+);
+--rollback drop table test3;
