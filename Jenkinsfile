@@ -53,7 +53,7 @@ pipeline {
                         error('error when create database')
                         
                     }
-                    def ip = sh(script:" kubectl get service postgres-service -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
+                    def ip = sh(script:" kubectl get service postgres -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
                                 returnStdout:True)
 
                     def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${ip}:80${deploymentDatabaseName}\
