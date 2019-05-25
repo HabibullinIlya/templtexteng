@@ -41,19 +41,22 @@ pipeline {
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${deploymentDatabaseName}| wc -l| tr -d '\n'",
                              returnStdout: true)
                     if(ifIsDBPresent == "0"){
-                        sh "kubectl create -f ./k8sconfigs/postgres-configmap.yaml"
-                        sh "kubectl create -f ./k8sconfigs/postgres-storage.yaml"
-                        sh "kubectl create -f ./k8sconfigs/postgres-deployment.yaml"
-                        sh "kubectl create -f ./k8sconfigs/postgres-service.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/postgres-configmap.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/postgres-storage.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/postgres-deployment.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/postgres-service.yaml"
+                        sleep(time:90, unit: "SECONDS")
                     }
-                    sleep(time:90, unit: "SECONDS")
+                    
 
                     if(!areReadyPods(filterPods(pods, deploymentDatabaseName))){
                         error('error when create database')
                         
                     }
+                    def ip = sh(script:" kubectl get service postgres-service -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
+                                returnStdout:True)
 
-                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://192.168.99.100:30080/${deploymentDatabaseName}\
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${ip}:80${deploymentDatabaseName}\
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
@@ -68,10 +71,10 @@ pipeline {
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
                         echo "get deployements ${projectName}"
-                        sh "kubectl create -f ./k8sconfigs/templates-configmap.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/templates-configmap.yaml"
                         //sh "kubectl run ${deploymentServiceName} --image=docker.io/habibullinilya/${projectName} --port=8080"
-                        sh "kubectl create -f ./k8sconfigs/templates-deployment.yaml"
-                        sh "kubectl expose deployments/${deploymentServiceName} --type=NodePort --port 8080"
+                        sh "kubectl apply -f ./k8sconfigs/templates-deployment.yaml"
+                        sh "kubectl apply -f ./k8sconfigs/templates-service.yaml"
                         sh "kubectl describe services/${deploymentServiceName}"
                     } else {
                         echo "else"
