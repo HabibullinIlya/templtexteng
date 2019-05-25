@@ -49,10 +49,10 @@ pipeline {
                     }
                     
 
-                    if(!areReadyPods(filterPods(pods, deploymentDatabaseName))){
-                        error('error when create database')
+                    // if(!areReadyPods(filterPods(pods, deploymentDatabaseName))){
+                    //     error('error when create database')
                         
-                    }
+                    // }
                     def ip = sh(script:" kubectl get service postgres -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
                                 returnStdout:True)
 
