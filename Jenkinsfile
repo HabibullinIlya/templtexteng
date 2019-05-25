@@ -54,7 +54,7 @@ pipeline {
                         
                     // }
                     def ip = sh(script:" kubectl get service postgres -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
-                                returnStdout:True)
+                                returnStdout:true)
 
                     def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${ip}:80${deploymentDatabaseName}\
                     --driver=org.postgresql.Driver \
