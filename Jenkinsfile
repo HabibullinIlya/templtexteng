@@ -1,6 +1,6 @@
-def imageName = "template_text_engine"
-def microserviceName = "templates_microservice"
-def databaseName = "templates_database"
+def imageName = 'template_text_engine'
+def microserviceName = 'templates_microservice'
+def databaseName = 'templates_database'
 def externalDBIp
 
 pipeline {
