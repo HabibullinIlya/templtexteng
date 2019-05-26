@@ -13,14 +13,14 @@ spec:
         app: templates
     spec:
       containers:
-        - name: templates-microservice
+        - name: templatesmicroservice
           image: habibullinilya/template_text_engine
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: templates-microservice-configs
+                name: templates-microservice-config
           readinessProbe: 
             httpGet: 
               path: /template/info/1
