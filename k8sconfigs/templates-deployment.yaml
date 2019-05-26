@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: templates
+  name: ${MICROSERVICE_NAME}
 spec:
   replicas: 1
   selector: 
@@ -13,14 +13,14 @@ spec:
         app: templates
     spec:
       containers:
-        - name: templates
-          image: habibullinilya/template_text_engine
+        - name: ${MICROSERVICE_NAME}
+          image: habibullinilya/${IMAGE_NAME}
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: templates-config
+                name: ${MICROSERVICE_NAME}-configs
           readinessProbe: 
             httpGet: 
               path: /template/info/1
