@@ -54,7 +54,7 @@ pipeline {
                         
                     // }
 
-                    externalDBIp = sh(script: " kubectl get service postgres -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
+                    externalDBIp = sh(script: " kubectl get service ${databaseName} -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
                             returnStdout: true)
 
                     def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName} \
@@ -71,7 +71,6 @@ pipeline {
                     def isExist = sh(script: "kubectl get deployments | grep ${microserviceName}| wc -l| tr -d '\n'", returnStdout: true)
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
-                        echo "get deployements ${imageName}"
                         sh "kubectl apply -f ./k8sconfigs/templates-configmap.yaml"
                         sh "kubectl apply -f ./k8sconfigs/templates-deployment.yaml"
                         sh "kubectl apply -f ./k8sconfigs/templates-service.yaml"
