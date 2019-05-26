@@ -6,6 +6,6 @@ metadata:
     app: templates_microservice
 data:
   #database ip will be name of service in k8s
-  DATABASE_INTERNAL_IP: templates_database
+  DATABASE_INTERNAL_IP: templates-database
   DATABASE_INTERNAL_PORT: "5432"
   DATABASE_NAME: templates_database

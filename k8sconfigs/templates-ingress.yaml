@@ -1,10 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: templates_microservice-ingress
+  name: templates-microservice-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "microservice-static-ip"
 spec:
   backend:
-    serviceName: templates_microservice
+    serviceName: templates-microservice
     servicePort: 8080

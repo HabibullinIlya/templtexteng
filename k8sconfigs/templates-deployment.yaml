@@ -20,7 +20,7 @@ spec:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: templates_microservice-configs
+                name: templates-microservice-configs
           readinessProbe: 
             httpGet: 
               path: /template/info/1
