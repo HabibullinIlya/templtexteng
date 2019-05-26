@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh 'printenv'
                 sh "chmod +x gradlew"
                 sh "echo build"
                 sh "./gradlew assemble"
