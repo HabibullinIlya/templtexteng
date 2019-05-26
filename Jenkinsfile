@@ -6,34 +6,34 @@ def externalDBIp
 pipeline {
     agent any
     stages {
-        stage('Build') {
-            steps {
-                sh 'printenv'
-                sh "chmod +x gradlew"
-                sh "echo build"
-                sh "./gradlew assemble"
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh "echo docker build"
-                    app = docker.build("habibullinilya/${imageName}")
-                }
-            }
-        }
-        stage('Push Image to Registry') {
-            steps {
-                script {
-                    sh "echo push image"
-                    docker.withRegistry('', 'dockerhub') {
-                        app.push("6.0")
-                        app.push("latest")
-                    }
+        // stage('Build') {
+        //     steps {
+        //         sh 'printenv'
+        //         sh "chmod +x gradlew"
+        //         sh "echo build"
+        //         sh "./gradlew assemble"
+        //     }
+        // }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             sh "echo docker build"
+        //             app = docker.build("habibullinilya/${imageName}")
+        //         }
+        //     }
+        // }
+        // stage('Push Image to Registry') {
+        //     steps {
+        //         script {
+        //             sh "echo push image"
+        //             docker.withRegistry('', 'dockerhub') {
+        //                 app.push("6.0")
+        //                 app.push("latest")
+        //             }
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         stage('update database'){
             steps{
                 script{

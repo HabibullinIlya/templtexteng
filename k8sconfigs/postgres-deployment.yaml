@@ -17,7 +17,7 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: postgres-config
+                name: templates-database-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/
               name: postgredb
