@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
   labels:
-    app: postgres
+    app: templates_database
 spec:
   accessModes:
     - ReadWriteOnce

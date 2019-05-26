@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ${MICROSERVICE_NAME}-config
+  name: templates_microservice-config
   labels: 
-    app: ${MICROSERVICE_NAME}
+    app: templates_microservice
 data:
   #database ip will be name of service in k8s
-  DATABASE_INTERNAL_IP: ${DATABASE_NAME}
+  DATABASE_INTERNAL_IP: templates_database
   DATABASE_INTERNAL_PORT: "5432"
-  DATABASE_NAME: ${DATABASE_NAME}
+  DATABASE_NAME: templates_database

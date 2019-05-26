@@ -5,11 +5,6 @@ def externalDBIp
 
 pipeline {
     agent any
-    environment {
-        DATABASE_NAME = "${databaseName}"
-        MICROSERVICE_NAME = "${microserviceName}"
-        IMAGE_NAME = "${imageName}"
-    }
     stages {
         stage('Build') {
             steps {

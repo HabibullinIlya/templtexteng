@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: ${DATABASE_NAME}
+  name: templates_database
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: ${DATABASE_NAME}
+        app: templates_database
     spec:
       containers:
         - name: postgres
