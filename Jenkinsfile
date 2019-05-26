@@ -1,4 +1,4 @@
-def imageName = "template-text-engine"
+def imageName = "template_text_engine"
 def microserviceName = "templates-microservice"
 def databaseName = "templates-database"
 def externalDBIp
