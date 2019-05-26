@@ -13,7 +13,7 @@ spec:
         app: templates
     spec:
       containers:
-        - name: templatesmicroservice
+        - name: templates-microservice
           image: habibullinilya/template_text_engine
           imagePullPolicy: "IfNotPresent"
           ports:
