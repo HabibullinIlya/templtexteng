@@ -86,7 +86,7 @@ pipeline {
                     
                     if(areReadyPods(filterPods(pods, microserviceName))){
                         sh "echo ready"
-                        sh "successful deploy "
+                        sh "echo successful deploy "
                         
                     }else{
                         sh "echo not ready"
