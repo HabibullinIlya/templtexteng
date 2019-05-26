@@ -27,7 +27,7 @@ pipeline {
                 script {
                     sh "echo push image"
                     docker.withRegistry('', 'dockerhub') {
-                        app.push("6.0")
+                        app.push("6.1")
                         app.push("latest")
                     }
                     
