@@ -8,4 +8,4 @@ data:
   #database ip will be name of service in k8s
   DATABASE_INTERNAL_IP: templates-database-${ENV_NAME}
   DATABASE_INTERNAL_PORT: "5432"
-  DATABASE_NAME: templates-database
+  DATABASE_NAME: templates-database-${ENV_NAME}
