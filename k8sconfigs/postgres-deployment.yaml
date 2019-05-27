@@ -22,6 +22,6 @@ spec:
             - mountPath: /var/lib/postgresql/
               name: templates-database-${ENV_NAME}
       volumes:
-        - name: postgredb-${ENV_NAME}
+        - name: templates-database-${ENV_NAME}
           persistentVolumeClaim:
             claimName: postgres-pv-claim-${ENV_NAME}
