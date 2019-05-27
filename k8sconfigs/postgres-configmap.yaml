@@ -5,6 +5,6 @@ metadata:
   labels: 
     app: templates-database-${ENV_NAME}
 data:
-  POSTGRES_DB: templates-database
+  POSTGRES_DB: templates-database-${ENV_NAME}
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
