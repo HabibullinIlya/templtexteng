@@ -20,7 +20,7 @@ spec:
                 name: templates-database-config-${ENV_NAME}
           volumeMounts:
             - mountPath: /var/lib/postgresql/
-              name: postgredb
+              name: templates-database-${ENV_NAME}
       volumes:
         - name: postgredb-${ENV_NAME}
           persistentVolumeClaim:
