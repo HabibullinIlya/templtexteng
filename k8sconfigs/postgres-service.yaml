@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: templates-database
+  name: templates-database-${ENV_NAME}
   labels:
-    app: templates-database
+    app: templates-database-${ENV_NAME}
 spec:
   type: LoadBalancer
   ports:
    - port: 5432
   selector:
-   app: templates-database
+   app: templates-database-${ENV_NAME}

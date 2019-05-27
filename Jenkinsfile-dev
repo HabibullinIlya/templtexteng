@@ -1,10 +1,16 @@
-def imageName = "template_text_engine"
-def microserviceName = "templates-microservice"
-def databaseName = "templates-database"
+def envName = "dev"
+
+def imageName = "template_text_engine_dev"
+def microserviceName = "templates-microservice-${envName}"
+def databaseName = "templates-database-${envName}"
 def externalDBIp
+
 
 pipeline {
     agent any
+    environment {
+        ENV_NAME = "${envName}"
+    }
     stages {
         stage('Build') {
             steps {
@@ -40,10 +46,10 @@ pipeline {
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${databaseName}| wc -l| tr -d '\n'",
                              returnStdout: true)
                     if(ifIsDBPresent == "0"){
-                        sh "kubectl apply -f ./k8sconfigs/postgres-configmap.yaml"
-                        sh "kubectl apply -f ./k8sconfigs/postgres-storage.yaml"
-                        sh "kubectl apply -f ./k8sconfigs/postgres-deployment.yaml"
-                        sh "kubectl apply -f ./k8sconfigs/postgres-service.yaml"
+                        sh "envsubst < ./k8sconfigs/postgres-configmap.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/postgres-storage.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/postgres-deployment.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/postgres-service.yaml | kubectl apply -f -"
 
                         sleep(time:90, unit: "SECONDS")
                     }
@@ -71,10 +77,11 @@ pipeline {
                     def isExist = sh(script: "kubectl get deployments | grep ${microserviceName}| wc -l| tr -d '\n'", returnStdout: true)
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
-                        sh "kubectl apply -f ./k8sconfigs/templates-configmap.yaml"
-                        sh "kubectl apply -f ./k8sconfigs/templates-deployment.yaml"
-                        sh "kubectl apply -f ./k8sconfigs/templates-service.yaml"
-                        sh "kubectl describe services/${microserviceName}"
+                        sh "envsubst < ./k8sconfigs/templates-configmap.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/templates-deployment.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/templates-service.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/templates-ingress.yaml | kubectl apply -f -"
+
                     } else {
                         echo "else"
                         sh "kubectl set image deployments/${microserviceName} ${microserviceName}=docker.io/habibullinilya/${imageName}"

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: templates-database-config
+  name: templates-database-config-${ENV_NAME}
   labels: 
-    app: templates-database
+    app: templates-database-${ENV_NAME}
 data:
   POSTGRES_DB: templates-database
   POSTGRES_USER: postgres
