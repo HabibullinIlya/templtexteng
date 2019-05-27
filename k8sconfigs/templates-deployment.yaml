@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: templates-microservice
+        app: templates-microservice-${ENV_NAME}
     spec:
       containers:
-        - name: templates-microservice
+        - name: templates-microservice-${ENV_NAME}
           image: habibullinilya/template_text_engine_${ENV_NAME}:latest
           imagePullPolicy: "Always"
           ports:
