@@ -1,6 +1,6 @@
 def envName = "test"
 
-def imageName = "template_text_engine_dev"
+def imageName = "template_text_engine_test_prod"
 def microserviceName = "templates-microservice-${envName}"
 def databaseName = "templates-database-${envName}"
 def externalDBIp
@@ -10,6 +10,7 @@ pipeline {
     agent any
     environment {
         ENV_NAME = "${envName}"
+        IMAGE_NAME = "${imageName}"
     }
     stages {
         stage('Build') {
@@ -110,11 +111,12 @@ pipeline {
         }
         
         stage('update database prod-env'){
-                environment {
+            environment {
                 ENV_NAME = "prod"
             }
             steps{
                 script{
+
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${databaseName}| wc -l| tr -d '\n'",
                             returnStdout: true)
                     if(ifIsDBPresent == "0"){
@@ -145,7 +147,11 @@ pipeline {
         }
         stage('deploy to k8s prod-env') {
             steps {
+                environment {
+                    ENV_NAME = "prod"
+                }
                 script {
+
                     def isExist = sh(script: "kubectl get deployments | grep ${microserviceName}| wc -l| tr -d '\n'", returnStdout: true)
                     echo "existin = ${isExist}"
                     if (isExist == "0") {
