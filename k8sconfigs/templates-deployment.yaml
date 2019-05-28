@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: templates-microservice-${ENV_NAME}
-          image: habibullinilya/{IMAGE_NAME}:latest
+          image: habibullinilya/${IMAGE_NAME}:latest
           imagePullPolicy: "Always"
           ports:
             - containerPort: 8080
