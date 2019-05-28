@@ -116,6 +116,7 @@ pipeline {
             }
             steps{
                 script{
+                    env = "prod"
 
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${databaseName}| wc -l| tr -d '\n'",
                             returnStdout: true)
