@@ -1,4 +1,4 @@
-def envName = "dev"
+def envName = "test"
 
 def imageName = "template_text_engine_dev"
 def microserviceName = "templates-microservice-${envName}"
