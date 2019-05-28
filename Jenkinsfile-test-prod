@@ -13,34 +13,34 @@ pipeline {
         IMAGE_NAME = "${imageName}"
     }
     stages {
-        stage('Build') {
-            steps {
-                sh 'printenv'
-                sh "chmod +x gradlew"
-                sh "echo build"
-                sh "./gradlew assemble" 
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh "echo docker build"
-                    app = docker.build("habibullinilya/${imageName}")
-                }
-            }
-        }
-        stage('Push Image to Registry') {
-            steps {
-                script {
-                    sh "echo push image"
-                    docker.withRegistry('', 'dockerhub') {
-                        app.push("10")
-                        app.push("latest")
-                    }
+        // stage('Build') {
+        //     steps {
+        //         sh 'printenv'
+        //         sh "chmod +x gradlew"
+        //         sh "echo build"
+        //         sh "./gradlew assemble" 
+        //     }
+        // }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             sh "echo docker build"
+        //             app = docker.build("habibullinilya/${imageName}")
+        //         }
+        //     }
+        // }
+        // stage('Push Image to Registry') {
+        //     steps {
+        //         script {
+        //             sh "echo push image"
+        //             docker.withRegistry('', 'dockerhub') {
+        //                 app.push("10")
+        //                 app.push("latest")
+        //             }
 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         stage('update database test-env'){
             steps{
                 script{
