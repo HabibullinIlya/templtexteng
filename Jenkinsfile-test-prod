@@ -146,10 +146,10 @@ pipeline {
             }
         }
         stage('deploy to k8s prod-env') {
+            environment {
+                ENV_NAME = "prod"
+            }
             steps {
-                environment {
-                    ENV_NAME = "prod"
-                }
                 script {
 
                     def isExist = sh(script: "kubectl get deployments | grep ${microserviceName}| wc -l| tr -d '\n'", returnStdout: true)
