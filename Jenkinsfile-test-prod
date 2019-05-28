@@ -116,7 +116,10 @@ pipeline {
             }
             steps{
                 script{
-                    env = "prod"
+                    envName = "prod"
+                    microserviceName = "templates-microservice-${envName}"
+                    databaseName = "templates-database-${envName}"
+                    sh "printenv"
 
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${databaseName}| wc -l| tr -d '\n'",
                             returnStdout: true)
