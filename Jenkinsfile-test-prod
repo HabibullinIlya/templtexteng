@@ -108,10 +108,11 @@ pipeline {
                 }
             }
         }
-        environment {
-            ENV_NAME = "prod"
-        }
+        
         stage('update database prod-env'){
+                environment {
+                ENV_NAME = "prod"
+            }
             steps{
                 script{
                     def ifIsDBPresent = sh(script: "kubectl get deployments | grep ${databaseName}| wc -l| tr -d '\n'",
