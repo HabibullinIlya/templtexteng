@@ -109,6 +109,14 @@ pipeline {
                 }
             }
         }
+        stage("Tests"){
+            steps{
+                script{
+                    sh "echo test not passed"
+                    error('test not passed')
+                }
+            }
+        }
         
         stage('update database prod-env'){
             environment {
