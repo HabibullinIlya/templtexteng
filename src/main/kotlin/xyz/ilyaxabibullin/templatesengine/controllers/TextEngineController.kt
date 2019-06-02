@@ -22,10 +22,9 @@ class TextEngineController {
     val logger = Logger()
 
     @Autowired
-    private lateinit var templateService: TemplateService
+    //private lateinit var templateService: TemplateService
 
 
-    //changes
     @GetMapping("info/{id}")
     fun template(@PathVariable("id") id: Int): ResponseEntity<Map<String,Any>> {
         val template = repository.findById(id)
