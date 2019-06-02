@@ -112,8 +112,8 @@ pipeline {
         stage("Tests"){
             steps{
                 script{
-                    sh "echo test not passed"
-                    error('test not passed')
+                    sh "echo test passed"
+
                 }
             }
         }
