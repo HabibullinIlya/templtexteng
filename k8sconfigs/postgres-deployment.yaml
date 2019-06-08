@@ -18,6 +18,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: templates-database-config-${ENV_NAME}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: password
           volumeMounts:
             - mountPath: /var/lib/postgresql/
               name: templates-database-${ENV_NAME}

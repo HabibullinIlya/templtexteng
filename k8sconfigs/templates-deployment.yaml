@@ -21,6 +21,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: templates-microservice-config-${ENV_NAME}
+          env:
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: password
           readinessProbe: 
             httpGet: 
               path: /template/info/1
