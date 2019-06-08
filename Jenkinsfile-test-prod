@@ -48,6 +48,7 @@ pipeline {
                             returnStdout: true)
                     if(ifIsDBPresent == "0"){
                         sh "envsubst < ./k8sconfigs/postgres-configmap.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/postgres-secrets.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-storage.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-deployment.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-service.yaml | kubectl apply -f -"
@@ -133,6 +134,7 @@ pipeline {
                             returnStdout: true)
                     if(ifIsDBPresent == "0"){
                         sh "envsubst < ./k8sconfigs/postgres-configmap.yaml | kubectl apply -f -"
+                        sh "envsubst < ./k8sconfigs/postgres-secrets.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-storage.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-deployment.yaml | kubectl apply -f -"
                         sh "envsubst < ./k8sconfigs/postgres-service.yaml | kubectl apply -f -"
