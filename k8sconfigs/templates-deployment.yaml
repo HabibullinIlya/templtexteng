@@ -1,30 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: templates
+  name: templates-microservice-${ENV_NAME}
 spec:
   replicas: 1
   selector: 
     matchLabels:
-      app: templates
+      app: templates-microservice-${ENV_NAME}
   template:
     metadata:
       labels:
-        app: templates
+        app: templates-microservice-${ENV_NAME}
     spec:
       containers:
-        - name: templates
-          image: habibullinilya/template_text_engine
-          imagePullPolicy: "IfNotPresent"
+        - name: templates-microservice-${ENV_NAME}
+          image: habibullinilya/${IMAGE_NAME}:latest
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: template-config
+                name: templates-microservice-config-${ENV_NAME}
+          env:
+            - name: DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: password
           readinessProbe: 
             httpGet: 
               path: /template/info/1
               port: 8080
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
             periodSeconds: 3
             timeoutSeconds: 5
+            successThreshold: 5

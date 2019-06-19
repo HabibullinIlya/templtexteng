@@ -1,13 +1,13 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: postgres
+  name: templates-database-${ENV_NAME}
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: postgres
+        app: templates-database-${ENV_NAME}
     spec:
       containers:
         - name: postgres
@@ -17,11 +17,22 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: postgres-config
+                name: templates-database-config-${ENV_NAME}
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: templates-database-secret-${ENV_NAME}
+                  key: password
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgredb
+            - mountPath: /var/lib/postgresql/
+              name: templates-database-${ENV_NAME}
       volumes:
-        - name: postgredb
+        - name: templates-database-${ENV_NAME}
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: postgres-pv-claim-${ENV_NAME}

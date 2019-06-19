@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: templates
+  name: templates-microservice-${ENV_NAME}
   labels:
-    app: templates
+    app: templates-microservice-${ENV_NAME}
 spec:
   type: NodePort
   ports:
    - port: 8080
-     nodePort: 30081
   selector:
-   app: templates
+   app: templates-microservice-${ENV_NAME}

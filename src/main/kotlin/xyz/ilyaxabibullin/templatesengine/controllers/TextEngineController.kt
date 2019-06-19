@@ -25,7 +25,6 @@ class TextEngineController {
     private lateinit var templateService: TemplateService
 
 
-
     @GetMapping("info/{id}")
     fun template(@PathVariable("id") id: Int): ResponseEntity<Map<String,Any>> {
         val template = repository.findById(id)
