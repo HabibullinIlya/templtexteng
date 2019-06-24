@@ -11,6 +11,7 @@ pipeline {
     environment {
         ENV_NAME = "${envName}"
         IMAGE_NAME = "${imageName}"
+        LIQUIBASE_HOME = "/home/ilya/Загрузки/liquibase-3.6.3-bin"
     }
     stages {
         stage('Build') {
@@ -65,7 +66,7 @@ pipeline {
                     externalDBIp = sh(script: " kubectl get service ${databaseName} -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
                             returnStdout: true)
 
-                    def result = sh(script: "/home/admin/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName} \
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName} \
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
@@ -98,7 +99,7 @@ pipeline {
 
                     }else{
                         sh "echo not ready"
-                        sh "/home/admin/liquibase-3.6.3-bin/liquibase \
+                        sh "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase \
                          --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName}\
                          --driver=org.postgresql.Driver --username=postgres --password=\"postgres\"\
                          --changeLogFile=./src/main/resources/initDb.sql rollbackCount 1"
@@ -151,7 +152,7 @@ pipeline {
                     externalDBIp = sh(script: " kubectl get service ${databaseName} -o jsonpath=\"{.status.loadBalancer.ingress[*].ip}\"",
                             returnStdout: true)
 
-                    def result = sh(script: "/home/admin/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName} \
+                    def result = sh(script: "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName} \
                     --driver=org.postgresql.Driver \
                     --username=postgres --password=\"postgres\" \
                     --changeLogFile=./src/main/resources/initDb.sql update" ,returnStdout: true)
@@ -188,7 +189,7 @@ pipeline {
 
                     }else{
                         sh "echo not ready"
-                        sh "/home/admin/liquibase-3.6.3-bin/liquibase \
+                        sh "/home/ilya/Загрузки/liquibase-3.6.3-bin/liquibase \
                          --url=jdbc:postgresql://${externalDBIp}:5432/${databaseName}\
                          --driver=org.postgresql.Driver --username=postgres --password=\"postgres\"\
                          --changeLogFile=./src/main/resources/initDb.sql rollbackCount 1"
